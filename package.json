@@ -1,0 +1,24 @@
+{
+  "name": "socialnetworknosql",
+  "version": "1.0.0",
+  "description": "NoSQL database where you can social network between friends and family",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoshuaEliTate/SocialNetworkNoSQL.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoshuaEliTate/SocialNetworkNoSQL/issues"
+  },
+  "homepage": "https://github.com/JoshuaEliTate/SocialNetworkNoSQL#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
+  }
+}
