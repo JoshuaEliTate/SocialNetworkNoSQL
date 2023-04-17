@@ -41,7 +41,7 @@ module.exports = {
   },
 
   async updateUser({ params, body }, res) {
-    User.findOne({_id: params.userId}, body, {
+    User.findOneAndUpdate({_id: params.userId}, body, {
       new: true,
       runValidators: true
     })
@@ -77,14 +77,16 @@ module.exports = {
   },
 
   async addFriend({params}, res) {
-    User.findOneAndUpdate({_id: params.userId}, 
-      { $addToSet: { friends: params.friendId } },
-      {
-      new: true,
-      runValidators: true
-    })
+    console.log(params)
+    User.findOneAndUpdate(
+      { _id: params.userId },
+      { $addToSet: { friends: params.friendsId } },
+      { new: true, runValidators: true }
+    )
+    
     .then((dbUserData) => {
       if (!dbUserData) {
+        console.log(dbUserData)
         return res
           .status(404)
           .json({ message: "No user found with this id!" });
@@ -99,8 +101,9 @@ module.exports = {
   },
 
   async deleteFriend({params}, res) {
+    console.log(params)
     User.findOneAndDelete({_id: params.userId}, 
-      { $pull: { friends: params.friendId } },
+      { $pull: { friends: params.friendsId } },
       {new: true,}
     )
     .then((dbUserData) => {
