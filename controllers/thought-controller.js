@@ -2,21 +2,13 @@ const { Thought, User } = require('../models');
 // import sign token function from auth
 
 module.exports = {
-  // getAllThoughts(req, res) {
-  //   Thought.find()
-  //   .populate({
-  //     path: "reactions",
-  //   })
-  //     .then((thoughts) => res.json(thoughts))
-  //     .catch((err) => res.status(500).json(err));
-  // },
   getAllThoughts(req, res) {
     Thought.find({})
-      // .populate({
-      //   path: "reactions",
-      //   select: "-__v",
-      // })
-      // .select("-__v")
+      .populate({
+        path: "reactions",
+        select: "-__v",
+      })
+      .select("-__v")
       .sort({ _id: -1 })
       .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => {
@@ -29,7 +21,11 @@ module.exports = {
     Thought.findOne({_id: params.thoughtId}).populate({
       path: "thoughtText",
       select: "-__v"   
-    }).select("-__v")
+    }).populate({
+      path: "reactions",
+      select: "-__v",
+    })
+    
     .then((dbUserData) => {
       if (!dbUserData) {
         return res
@@ -103,13 +99,16 @@ module.exports = {
     
   },
 
-  async addReaction({params}, res) {
+  async addReaction(req, res) {
+    console.log(req)
     Thought.findOneAndUpdate(
-      {_id: params.thoughtId}, 
-      { $addToSet: { reactions: body } },
+      {_id: req.params.thoughtId}, 
+      // { $push: { reactions: _id } },
+      { $addToSet: { reactions: req.body.reactionBody } },
+      { $addToSet: { reactions:  req.body.username } },
       {
       new: true,
-      runValidators: true
+      // runValidators: true
     })
     .then((dbThoughtData) => {
       if (!dbThoughtData) {
