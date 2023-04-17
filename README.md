@@ -1,2 +1,2 @@
 # SocialNetworkNoSQL
-NoSQL database where you can social network between friends and family
+NoSQL database where you can social network between friends and family (only backend)
