@@ -100,12 +100,12 @@ module.exports = {
   },
 
   async addReaction(req, res) {
-    console.log(req)
+    console.log(req.body)
     Thought.findOneAndUpdate(
       {_id: req.params.thoughtId}, 
       // { $push: { reactions: _id } },
-      { $addToSet: { reactions: req.body.reactionBody } },
-      { $addToSet: { reactions:  req.body.username } },
+      { $addToSet: { reactions: req.body } },
+      // { $addToSet: { reactions:  req.body.username } },
       {
       new: true,
       // runValidators: true
@@ -126,9 +126,9 @@ module.exports = {
   },
 
   async deleteReaction({params}, res) {
-    Thought.findOneAndDelete(
+    Thought.findOneAndUpdate(
       {_id: params.thoughtId}, 
-      { $pull: { reactions: params.reactionId } },
+      { $pull: { reactions: {_id: params.reactionId} } },
       {new: true,}
     )
     .then((dbThoughtData) => {
